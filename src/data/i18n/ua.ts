@@ -66,6 +66,7 @@ export const ua: Translations = {
     smallCups: 'Малі Стаканчики',
     largeCups: 'Великі Стаканчики',
     stirrers: 'Мішалки',
+    sugar: 'Цукор',
     low: 'Низько',
     alert: 'Поріг попередження'
   },

@@ -79,6 +79,7 @@ export interface Translations {
     milk: string
     smallCups: string
     largeCups: string
+    sugar: string
     stirrers: string
     low: string
     alert: string

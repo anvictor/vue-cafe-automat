@@ -1,14 +1,9 @@
 <script setup lang="ts">
-import { RouterView, RouterLink } from 'vue-router'
+import { RouterView } from 'vue-router'
 </script>
 
 <template>
   <div class="app">
-    <nav class="app-nav">
-      <RouterLink to="/">Client</RouterLink>
-      <RouterLink to="/admin">Admin</RouterLink>
-    </nav>
-    
     <main>
       <RouterView />
     </main>

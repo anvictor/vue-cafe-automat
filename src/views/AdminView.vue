@@ -14,12 +14,12 @@ const i18nStore = useI18nStore()
       <h1>🔧 {{ i18nStore.t.admin.title }}</h1>
       <LanguageSelector />
     </div>
-    
+
     <div class="admin-content">
       <div class="top-section">
         <ResourceMonitor />
       </div>
-      
+
       <div class="bottom-section">
         <WarehousePanel />
         <RefillControls />
@@ -44,6 +44,9 @@ const i18nStore = useI18nStore()
   background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
   border-radius: 16px;
   color: white;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 h1 {
@@ -79,20 +82,20 @@ h1 {
   .admin-view {
     padding: 0.25rem;
   }
-  
+
   .header {
     padding: 0.75rem;
     margin-bottom: 1rem;
   }
-  
+
   h1 {
     font-size: 1.5rem;
   }
-  
+
   .admin-content {
     gap: 1rem;
   }
-  
+
   .bottom-section {
     gap: 1rem;
   }
@@ -103,11 +106,11 @@ h1 {
   .header {
     padding: 0.5rem 1rem;
   }
-  
+
   h1 {
     font-size: 1.25rem;
   }
-  
+
   .bottom-section {
     grid-template-columns: 1fr 1fr;
   }
@@ -118,7 +121,7 @@ h1 {
   h1 {
     font-size: 1.25rem;
   }
-  
+
   .header {
     padding: 0.5rem;
   }

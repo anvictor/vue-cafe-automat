@@ -4,6 +4,14 @@ import { useI18nStore } from '@/stores/i18nStore'
 import type { ResourceInventory } from '@/types/Coffee'
 import { RESOURCE_UNITS } from '@/data/resourceUnits'
 
+import water from '@/assets/images/water.png'
+import coffee from '@/assets/images/coffee.png'
+import milk from '@/assets/images/milk.png'
+import smallCups from '@/assets/images/smallCups.png'
+import largeCups from '@/assets/images/largeCups.png'
+import stirrers from '@/assets/images/stirrers.png'
+import sugar from '@/assets/images/sugar.png'
+
 const warehouseStore = useWarehouseStore()
 const i18nStore = useI18nStore()
 
@@ -12,12 +20,13 @@ const handlePurchase = (resourceType: keyof ResourceInventory) => {
 }
 
 const resourceList: Array<{ key: keyof ResourceInventory; icon: string }> = [
-  { key: 'water', icon: '💧' },
-  { key: 'coffee', icon: '☕' },
-  { key: 'milk', icon: '🥛' },
-  { key: 'smallCups', icon: '🥤' },
-  { key: 'largeCups', icon: '🥤' },
-  { key: 'stirrers', icon: '🥄' },
+  { key: 'water', icon: water },
+  { key: 'coffee', icon: coffee },
+  { key: 'milk', icon: milk },
+  { key: 'smallCups', icon: smallCups },
+  { key: 'largeCups', icon: largeCups },
+  { key: 'stirrers', icon: stirrers },
+  { key: 'sugar', icon: sugar },
 ]
 </script>
 
@@ -28,7 +37,7 @@ const resourceList: Array<{ key: keyof ResourceInventory; icon: string }> = [
     <div class="warehouse-grid">
       <div v-for="resource in resourceList" :key="resource.key" class="warehouse-item">
         <div class="item-header">
-          <span class="item-icon">{{ resource.icon }}</span>
+          <img :src="resource.icon" :alt="resource.key" />
           <span class="item-label">{{ i18nStore.t.resources[resource.key] }}</span>
         </div>
         <div class="item-stock">{{ i18nStore.t.admin[RESOURCE_UNITS[resource.key]] }}</div>

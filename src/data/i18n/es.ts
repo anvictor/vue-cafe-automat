@@ -66,6 +66,7 @@ export const es: Translations = {
     smallCups: 'Vasos Pequeños',
     largeCups: 'Vasos Grandes',
     stirrers: 'Agitadores',
+    sugar: 'Azúcar',
     low: 'Bajo',
     alert: 'Umbral de alerta'
   },

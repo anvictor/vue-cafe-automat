@@ -1,9 +1,32 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import { CoffeeType } from '@/types/Coffee'
 import { coffeeMenu } from '@/data/coffeeMenu'
 import { useCoffeeStore } from '@/stores/coffeeStore'
 import { useI18nStore } from '@/stores/i18nStore'
+
+import espresso from '@/assets/images/Espresso.png'
+import espresso_double from '@/assets/images/Espresso_double.png'
+import americano from '@/assets/images/Americano.png'
+import coffee_with_milk from '@/assets/images/Coffee_with_milk.png'
+import cappuccino from '@/assets/images/Cappuccino.png'
+import latte from '@/assets/images/Latte.png'
+import macchiato from '@/assets/images/Macchiato.png'
+import hot_milk from '@/assets/images/Hot_milk.png'
+import hot_water from '@/assets/images/Hot_water.png'
+const coffeeImageMap = {
+  espresso,
+  espresso_double,
+  americano,
+  coffee_with_milk,
+  cappuccino,
+  latte,
+  macchiato,
+  hot_milk,
+  hot_water,
+}
+const getCoffeeImage = (type: CoffeeType) => {
+  return coffeeImageMap[type]
+}
 
 const coffeeStore = useCoffeeStore()
 const i18nStore = useI18nStore()
@@ -30,7 +53,7 @@ const formatPrice = (priceInCents: number) => {
 <template>
   <div class="coffee-menu">
     <h2>{{ i18nStore.t.menu.title }}</h2>
-    
+
     <div class="menu-grid">
       <div
         v-for="coffee in coffeeMenu"
@@ -39,7 +62,9 @@ const formatPrice = (priceInCents: number) => {
         :class="{ selected: coffeeStore.selectedCoffeeType === coffee.type }"
         @click="handleSelectCoffee(coffee.type)"
       >
-        <div class="coffee-icon">☕</div>
+        <div class="coffee-icon">
+          <img :src="getCoffeeImage(coffee.type)" :alt="coffee.type" />
+        </div>
         <h3>{{ getCoffeeName(coffee.type) }}</h3>
         <p class="description">{{ getCoffeeDescription(coffee.type) }}</p>
         <div class="price">{{ formatPrice(coffee.price) }}</div>

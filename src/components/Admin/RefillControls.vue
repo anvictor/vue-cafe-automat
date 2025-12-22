@@ -6,6 +6,14 @@ import { useI18nStore } from '@/stores/i18nStore'
 import type { ResourceInventory } from '@/types/Coffee'
 import { RESOURCE_UNITS, CLIENT_MAX_CAPACITY } from '@/data/resourceUnits'
 
+import water from '@/assets/images/water.png'
+import coffee from '@/assets/images/coffee.png'
+import milk from '@/assets/images/milk.png'
+import smallCups from '@/assets/images/smallCups.png'
+import largeCups from '@/assets/images/largeCups.png'
+import stirrers from '@/assets/images/stirrers.png'
+import sugar from '@/assets/images/sugar.png'
+
 const warehouseStore = useWarehouseStore()
 const resourceStore = useResourceStore()
 const i18nStore = useI18nStore()
@@ -18,15 +26,17 @@ const preparedRefill = ref<Partial<ResourceInventory>>({
   smallCups: 0,
   largeCups: 0,
   stirrers: 0,
+  sugar: 0,
 })
 
 const resourceList: Array<{ key: keyof ResourceInventory; icon: string }> = [
-  { key: 'water', icon: '💧' },
-  { key: 'coffee', icon: '☕' },
-  { key: 'milk', icon: '🥛' },
-  { key: 'smallCups', icon: '🥤' },
-  { key: 'largeCups', icon: '🥤' },
-  { key: 'stirrers', icon: '🥄' },
+  { key: 'water', icon: water },
+  { key: 'coffee', icon: coffee },
+  { key: 'milk', icon: milk },
+  { key: 'smallCups', icon: smallCups },
+  { key: 'largeCups', icon: largeCups },
+  { key: 'stirrers', icon: stirrers },
+  { key: 'sugar', icon: sugar },
 ]
 
 // Calculate how much can be added (1 unit at a time, not exceeding capacity)
@@ -104,7 +114,7 @@ const executeRefill = () => {
     <div class="refill-grid">
       <div v-for="resource in resourceList" :key="resource.key" class="refill-item">
         <div class="item-info">
-          <span class="item-icon">{{ resource.icon }}</span>
+          <img :src="resource.icon" :alt="resource.key" />
           <div class="item-details">
             <div class="item-label">{{ i18nStore.t.resources[resource.key] }}</div>
             <div class="item-amounts">

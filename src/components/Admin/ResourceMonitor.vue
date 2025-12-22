@@ -27,6 +27,7 @@ const resourceList = computed(() => {
     'smallCups',
     'largeCups',
     'stirrers',
+    'sugar',
   ]
 
   resourceKeys.forEach((key) => {

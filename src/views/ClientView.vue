@@ -29,13 +29,13 @@ coffeeStore.$subscribe((mutation, state) => {
       <h1>☕ Coffee Machine</h1>
       <LanguageSelector />
     </div>
-    
+
     <div class="main-content">
       <div class="left-panel">
         <DepositPanel />
         <SugarControl />
       </div>
-      
+
       <div class="center-panel">
         <CoffeeMenu />
         <PrepareButton />
@@ -63,6 +63,9 @@ coffeeStore.$subscribe((mutation, state) => {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border-radius: 16px;
   color: white;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 h1 {
@@ -93,12 +96,12 @@ h1 {
   .main-content {
     grid-template-columns: 1fr;
   }
-  
+
   .left-panel {
     flex-direction: row;
     gap: 1rem;
   }
-  
+
   .left-panel > * {
     flex: 1;
   }
@@ -109,25 +112,25 @@ h1 {
   .client-view {
     padding: 0.25rem;
   }
-  
+
   .header {
     padding: 0.75rem;
     margin-bottom: 1rem;
   }
-  
+
   h1 {
     font-size: 1.5rem;
   }
-  
+
   .main-content {
     gap: 1rem;
   }
-  
+
   .left-panel {
     flex-direction: column;
     gap: 1rem;
   }
-  
+
   .center-panel {
     gap: 1rem;
   }
@@ -138,26 +141,26 @@ h1 {
   .client-view {
     padding: 0.25rem;
   }
-  
+
   .header {
     padding: 0.5rem 1rem;
     margin-bottom: 0.75rem;
   }
-  
+
   h1 {
     font-size: 1.25rem;
   }
-  
+
   .main-content {
     grid-template-columns: 300px 1fr;
     gap: 1rem;
   }
-  
+
   .left-panel {
     flex-direction: column;
     gap: 0.75rem;
   }
-  
+
   .center-panel {
     gap: 0.75rem;
   }
@@ -168,7 +171,7 @@ h1 {
   h1 {
     font-size: 1.25rem;
   }
-  
+
   .header {
     padding: 0.5rem;
   }

@@ -5,7 +5,8 @@ export const RESOURCE_UNITS = {
   milk: 'ml',
   smallCups: 'pcs',
   largeCups: 'pcs',
-  stirrers: 'pcs'
+  stirrers: 'pcs',
+  sugar: 'pcs'
 } as const
 
 // Maximum capacity for client machine (same as initial × 2 for safety margin)
@@ -15,5 +16,6 @@ export const CLIENT_MAX_CAPACITY = {
   milk: 600,
   smallCups: 20,
   largeCups: 16,
-  stirrers: 20
+  stirrers: 20,
+  sugar: 20,
 } as const

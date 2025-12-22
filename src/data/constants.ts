@@ -13,7 +13,8 @@ export const RESOURCE_THRESHOLDS: ResourceInventory = {
   milk: 150,       // 1 cup worth
   smallCups: 5,    // 1 round of small drinks
   largeCups: 4,    // 1 round of large drinks
-  stirrers: 5      // 1 round
+  stirrers: 5,     // 1 round
+  sugar: 5         // 1 round
 }
 
 // Initial inventory for client machine (enough for ~2 cups of each drink)
@@ -23,7 +24,8 @@ export const INITIAL_CLIENT_INVENTORY: ResourceInventory = {
   milk: 300,       // Max 150ml per drink × 2
   smallCups: 10,   // 5 drinks use small cups × 2
   largeCups: 8,    // 4 drinks use large cups × 2
-  stirrers: 10     // Assuming sugar in some drinks × 2
+  stirrers: 10,    // Assuming sugar in some drinks × 2
+  sugar: 10        // Assuming sugar in some drinks × 2
 }
 
 // Initial warehouse inventory
@@ -33,7 +35,8 @@ export const INITIAL_WAREHOUSE_INVENTORY: ResourceInventory = {
   milk: 5000,
   smallCups: 100,
   largeCups: 100,
-  stirrers: 200
+  stirrers: 200,
+  sugar: 200
 }
 
 // Purchase amounts - how much to add when "buying" resources (max 5 portions)
@@ -43,7 +46,8 @@ export const PURCHASE_AMOUNTS: ResourceInventory = {
   milk: 750,       // 5 × 150ml
   smallCups: 25,   // 5 × 5 drinks
   largeCups: 20,   // 5 × 4 drinks
-  stirrers: 25     // 5 × 5
+  stirrers: 25,    // 5 × 5
+  sugar: 25        // 5 × 5
 }
 
 // Refill amounts - how much to transfer from warehouse to client (enough for ~2 more cups)
@@ -53,7 +57,8 @@ export const REFILL_AMOUNTS: ResourceInventory = {
   milk: 300,       // 2 cups worth
   smallCups: 10,   // 2 rounds
   largeCups: 8,    // 2 rounds
-  stirrers: 10     // 2 rounds
+  stirrers: 10,    // 2 rounds
+  sugar: 10        // 2 rounds
 }
 
 // Sugar limits
