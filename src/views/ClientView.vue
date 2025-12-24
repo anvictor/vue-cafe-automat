@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import LanguageSelector from '@/components/LanguageSelector.vue'
 import DepositPanel from '@/components/Client/DepositPanel.vue'
 import CoffeeMenu from '@/components/Client/CoffeeMenu.vue'
@@ -10,9 +10,14 @@ import CoffeeCup from '@/components/Client/CoffeeCup.vue'
 import ChangeDisplay from '@/components/Client/ChangeDisplay.vue'
 import { useCoffeeStore } from '@/stores/coffeeStore'
 import { useDepositStore } from '@/stores/depositStore'
+import { useResourceStore } from '@/stores/resourceStore'
+import { useWebSocket } from '@/composables/useWebSocket'
+import type { RefillEvent } from '@/types/WebSocket'
 
 const coffeeStore = useCoffeeStore()
 const depositStore = useDepositStore()
+const resourceStore = useResourceStore()
+const ws = useWebSocket()
 const changeAmount = ref(0)
 
 // Watch for coffee taken to show change
@@ -20,6 +25,22 @@ coffeeStore.$subscribe((mutation, state) => {
   if (state.preparationStatus === 'taken') {
     changeAmount.value = depositStore.change
   }
+})
+
+// WebSocket connection and listeners
+onMounted(() => {
+  ws.connect()
+
+  // Listen for refill updates from admin
+  ws.onRefillUpdate((data: RefillEvent) => {
+    console.log('[Client] Received refill update:', data)
+    resourceStore.refillResources(data.amounts)
+  })
+})
+
+onUnmounted(() => {
+  // Clean up listeners but keep connection alive
+  ws.offRefillUpdate(() => {})
 })
 </script>
 

@@ -70,20 +70,21 @@ const totalPrepared = computed(() => {
 })
 
 // Execute refill - transfer all prepared amounts
-const executeRefill = () => {
+const executeRefill = async () => {
   if (totalPrepared.value === 0) return
 
   const refillData: Partial<ResourceInventory> = {}
 
   // Transfer each prepared amount
-  Object.entries(preparedRefill.value).forEach(([key, amount]) => {
+  for (const [key, amount] of Object.entries(preparedRefill.value)) {
     if (amount && amount > 0) {
       const resourceKey = key as keyof ResourceInventory
-      if (warehouseStore.transferToClient(resourceKey, amount)) {
+      const success = await warehouseStore.transferToClient(resourceKey, amount)
+      if (success) {
         refillData[resourceKey] = amount
       }
     }
-  })
+  }
 
   // Update client resources
   if (Object.keys(refillData).length > 0) {
@@ -97,6 +98,7 @@ const executeRefill = () => {
       smallCups: 0,
       largeCups: 0,
       stirrers: 0,
+      sugar: 0,
     }
   }
 }

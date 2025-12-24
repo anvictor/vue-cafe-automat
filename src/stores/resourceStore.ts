@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import type { ResourceInventory, Ingredients, CupSize } from '@/types/Coffee'
+import type { ResourceInventory, Ingredients } from '@/types/Coffee'
 import { INITIAL_CLIENT_INVENTORY, RESOURCE_THRESHOLDS } from '@/data/constants'
 import { CupSize as CupSizeEnum } from '@/types/Coffee'
+import { useWebSocket } from '@/composables/useWebSocket'
 
 export const useResourceStore = defineStore('resource', () => {
     // State
@@ -46,7 +47,7 @@ export const useResourceStore = defineStore('resource', () => {
     function consumeResources(ingredients: Ingredients): boolean {
         if (!canMakeCoffee(ingredients)) return false
 
-        const { water, coffee, milk, cup, stirrer } = ingredients
+        const { water, coffee, milk, cup, stirrer, sugar } = ingredients
 
         // Deduct resources
         inventory.value.water -= water
@@ -62,6 +63,15 @@ export const useResourceStore = defineStore('resource', () => {
             inventory.value.stirrers -= 1
         }
 
+        // Deduct sugar if needed
+        if (sugar > 0) {
+            inventory.value.sugar -= sugar
+        }
+
+        // Emit WebSocket event for real-time sync
+        const ws = useWebSocket()
+        ws.emitResourceUpdate(inventory.value)
+
         return true
     }
 
@@ -71,6 +81,10 @@ export const useResourceStore = defineStore('resource', () => {
                 inventory.value[key as keyof ResourceInventory] += value
             }
         }
+
+        // Emit WebSocket event for real-time sync
+        const ws = useWebSocket()
+        ws.emitResourceUpdate(inventory.value)
     }
 
     function setInventory(newInventory: Partial<ResourceInventory>) {

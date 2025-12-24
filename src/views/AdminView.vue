@@ -1,11 +1,38 @@
 <script setup lang="ts">
+import { onMounted, onUnmounted } from 'vue'
 import ResourceMonitor from '@/components/Admin/ResourceMonitor.vue'
 import WarehousePanel from '@/components/Admin/WarehousePanel.vue'
 import RefillControls from '@/components/Admin/RefillControls.vue'
 import LanguageSelector from '@/components/LanguageSelector.vue'
 import { useI18nStore } from '@/stores/i18nStore'
+import { useResourceStore } from '@/stores/resourceStore'
+import { useWarehouseStore } from '@/stores/warehouseStore'
+import { useWebSocket } from '@/composables/useWebSocket'
+import type { ResourceUpdateEvent } from '@/types/WebSocket'
 
 const i18nStore = useI18nStore()
+const resourceStore = useResourceStore()
+const warehouseStore = useWarehouseStore()
+const ws = useWebSocket()
+
+// WebSocket connection and listeners
+onMounted(async () => {
+  ws.connect()
+
+  // Listen for resource updates from client
+  ws.onResourceUpdate((data: ResourceUpdateEvent) => {
+    console.log('[Admin] Received resource update:', data)
+    resourceStore.setInventory(data.inventory)
+  })
+
+  // Load warehouse data from Google Sheets
+  await warehouseStore.loadFromGoogleSheets()
+})
+
+onUnmounted(() => {
+  // Clean up listeners but keep connection alive
+  ws.offResourceUpdate(() => {})
+})
 </script>
 
 <template>
