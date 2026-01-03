@@ -18,29 +18,17 @@ const progressPercentage = computed(() => {
 
 <template>
   <div v-if="isVisible" class="preparation-display">
-    <h3>{{ i18nStore.t.preparation.preparing }}...</h3>
-    
-    <div class="progress-container">
-      <div class="progress-bar">
-        <div 
-          class="progress-fill"
-          :style="{ width: `${progressPercentage}%` }"
-        ></div>
-      </div>
-      <div class="progress-text">{{ progressPercentage }}%</div>
-    </div>
-    
-    <div class="coffee-animation">
-      <div class="steam">☁️</div>
-      <div class="cup">☕</div>
-    </div>
+    <span>{{ i18nStore.t.preparation.preparing }}...</span>
+    <span>{{ progressPercentage }}%</span>
   </div>
 </template>
 
 <style scoped>
 .preparation-display {
-  background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
-  padding: 2rem;
+  position: absolute;
+  top: 48vh;
+  left: 69vh;
+  /* padding: 2rem; */
   border-radius: 16px;
   color: white;
   text-align: center;
@@ -95,7 +83,8 @@ h3 {
 }
 
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
     opacity: 0.7;
   }
@@ -106,7 +95,8 @@ h3 {
 }
 
 @keyframes shake {
-  0%, 100% {
+  0%,
+  100% {
     transform: rotate(0deg);
   }
   25% {

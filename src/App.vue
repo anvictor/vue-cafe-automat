@@ -39,6 +39,6 @@ import { RouterView } from 'vue-router'
 }
 
 main {
-  padding: 2rem;
+  /* padding: 2rem; */
 }
 </style>

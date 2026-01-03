@@ -6,7 +6,7 @@ import CoffeeMenu from '@/components/Client/CoffeeMenu.vue'
 import SugarControl from '@/components/Client/SugarControl.vue'
 import PrepareButton from '@/components/Client/PrepareButton.vue'
 import PreparationDisplay from '@/components/Client/PreparationDisplay.vue'
-import CoffeeCup from '@/components/Client/CoffeeCup.vue'
+import CoffeePreparing from '@/components/Client/CoffeePreparing.vue'
 import ChangeDisplay from '@/components/Client/ChangeDisplay.vue'
 import { useCoffeeStore } from '@/stores/coffeeStore'
 import { useDepositStore } from '@/stores/depositStore'
@@ -52,29 +52,19 @@ onUnmounted(() => {
     </div>
 
     <div class="main-content">
-      <div class="left-panel">
-        <DepositPanel />
-        <SugarControl />
-      </div>
+      <DepositPanel />
+      <SugarControl />
 
-      <div class="center-panel">
-        <CoffeeMenu />
-        <PrepareButton />
-        <PreparationDisplay />
-        <CoffeeCup />
-        <ChangeDisplay :amount="changeAmount" />
-      </div>
+      <CoffeeMenu />
+      <PrepareButton />
+      <PreparationDisplay />
+      <CoffeePreparing />
+      <ChangeDisplay :amount="changeAmount" />
     </div>
   </div>
 </template>
 
 <style scoped>
-.client-view {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0.5rem;
-}
-
 .header {
   display: flex;
   justify-content: space-between;
@@ -94,107 +84,101 @@ h1 {
   font-size: 2rem;
 }
 
-.main-content {
-  display: grid;
-  grid-template-columns: 350px 1fr;
-  gap: 1.5rem;
-}
+/* Base layout for all screen sizes */
+.client-view {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
 
-.left-panel {
   display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  flex-direction: column; /* header on top by default */
+  height: 100vh; /* occupy full screen height */
 }
 
-.center-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+/* HEADER */
+.client-view .header {
+  flex: 0 0 auto; /* minimal height */
 }
 
-/* Tablet and smaller desktops */
-@media (max-width: 1024px) {
-  .main-content {
-    grid-template-columns: 1fr;
+/* MAIN CONTENT */
+.client-view .main-content {
+  flex: 1 1 auto;
+  position: relative;
+  background-image: url('@/assets/images/mashine_bgrnd.png');
+
+  /* Maintain background image aspect ratio */
+  aspect-ratio: 2304 / 1728;
+  max-height: 100vh;
+
+  background-size: contain; /* fit entire image without cropping */
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* -------------------------------------- */
+/* 1. Smartphone in landscape orientation */
+/* -------------------------------------- */
+@media (orientation: landscape) and (max-width: 900px) {
+  .client-view {
+    flex-direction: row; /* header on the left, content on the right */
+    height: 100vh;
   }
 
-  .left-panel {
-    flex-direction: row;
-    gap: 1rem;
+  .client-view .header {
+    width: auto;
+    min-width: 80px; /* minimal width */
+    height: 100%;
   }
 
-  .left-panel > * {
+  .client-view .main-content {
+    position: relative;
+
     flex: 1;
+    height: 100vh; /* cannot exceed screen height */
+    aspect-ratio: 2304 / 1728;
+    background-image: url('@/assets/images/mashine_bgrnd.png');
   }
 }
 
-/* Mobile portrait */
-@media (max-width: 768px) {
+/* -------------------------------------- */
+/* 2. Smartphone in portrait orientation  */
+/* -------------------------------------- */
+@media (orientation: portrait) and (max-width: 900px) {
   .client-view {
-    padding: 0.25rem;
+    flex-direction: column; /* header on top */
+    height: 100vh;
   }
 
-  .header {
-    padding: 0.75rem;
-    margin-bottom: 1rem;
+  .client-view .header {
+    height: auto;
+    min-height: 60px;
   }
 
-  h1 {
-    font-size: 1.5rem;
-  }
+  .client-view .main-content {
+    position: relative;
 
-  .main-content {
-    gap: 1rem;
-  }
-
-  .left-panel {
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .center-panel {
-    gap: 1rem;
+    flex: 1;
+    width: 100%;
+    max-height: calc(100vh - 60px); /* fill remaining space */
   }
 }
 
-/* Mobile landscape */
-@media (max-width: 768px) and (orientation: landscape) {
+/* ------------------------------ */
+/* 3. Wide screens (desktop/tablet) */
+/* ------------------------------ */
+@media (min-width: 900px) {
   .client-view {
-    padding: 0.25rem;
+    flex-direction: column; /* header on top */
+    height: auto;
   }
 
-  .header {
-    padding: 0.5rem 1rem;
-    margin-bottom: 0.75rem;
-  }
+  .client-view .main-content {
+    position: relative;
 
-  h1 {
-    font-size: 1.25rem;
-  }
-
-  .main-content {
-    grid-template-columns: 300px 1fr;
-    gap: 1rem;
-  }
-
-  .left-panel {
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .center-panel {
-    gap: 0.75rem;
-  }
-}
-
-/* Small mobile */
-@media (max-width: 480px) {
-  h1 {
-    font-size: 1.25rem;
-  }
-
-  .header {
-    padding: 0.5rem;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    aspect-ratio: 2304 / 1728;
   }
 }
 </style>

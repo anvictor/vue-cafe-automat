@@ -25,18 +25,13 @@ const formatEuro = (cents: number) => {
 
 <template>
   <div class="deposit-panel">
-    <h2>{{ i18nStore.t.deposit.title }}</h2>
-
     <div class="balance-display">
-      <div class="balance-item">
-        <span class="label">{{ i18nStore.t.deposit.balance }}:</span>
-        <span class="value">{{ formattedCurrentBalance }}</span>
-      </div>
-
-      <div class="balance-item required">
-        <span class="label">{{ i18nStore.t.deposit.required }}:</span>
-        <span class="value">{{ formattedRequiredAmount }}</span>
-      </div>
+      <span class="label">{{ i18nStore.t.deposit.balance }}:</span>
+      <span class="value">{{ formattedCurrentBalance }}</span>
+    </div>
+    <div class="balance-display">
+      <span class="label">{{ i18nStore.t.deposit.required }}:</span>
+      <span class="value">{{ formattedRequiredAmount }}</span>
     </div>
 
     <button class="insert-coin-btn" @click="handleInsertCoin">
@@ -48,11 +43,21 @@ const formatEuro = (cents: number) => {
 
 <style scoped>
 .deposit-panel {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 2rem;
+  position: absolute;
+  top: 21vh;
+  left: 13vh;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
   border-radius: 16px;
   color: white;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(45deg, black, #686565bf);
+}
+.deposit-panel span {
+  width: 89px;
+
+  text-align: center;
 }
 
 h2 {
@@ -63,20 +68,12 @@ h2 {
 
 .balance-display {
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
   background: rgba(255, 255, 255, 0.1);
-  padding: 1.5rem;
   border-radius: 12px;
   backdrop-filter: blur(10px);
-}
-
-.balance-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 1.1rem;
 }
 
 .balance-item.required {
@@ -94,11 +91,11 @@ h2 {
 }
 
 .insert-coin-btn {
-  width: 100%;
+  width: 199px;
   padding: 1rem 2rem;
   font-size: 1.2rem;
   font-weight: 600;
-  background: rgba(255, 255, 255, 0.95);
+  background: rgb(255 255 255 / 54%);
   color: #667eea;
   border: none;
   border-radius: 12px;
@@ -135,52 +132,6 @@ h2 {
   }
   100% {
     transform: rotateY(360deg);
-  }
-}
-
-/* Mobile responsive */
-@media (max-width: 768px) {
-  .deposit-panel {
-    padding: 1.5rem;
-  }
-
-  h2 {
-    font-size: 1.2rem;
-  }
-
-  .balance-display {
-    padding: 1rem;
-  }
-
-  .balance-item {
-    font-size: 1rem;
-  }
-
-  .value {
-    font-size: 1.25rem;
-  }
-
-  .insert-coin-btn {
-    padding: 0.875rem 1.5rem;
-    font-size: 1.1rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .deposit-panel {
-    padding: 1rem;
-  }
-
-  h2 {
-    font-size: 1.1rem;
-  }
-
-  .balance-item {
-    font-size: 0.9rem;
-  }
-
-  .value {
-    font-size: 1.1rem;
   }
 }
 </style>

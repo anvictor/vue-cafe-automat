@@ -52,8 +52,6 @@ const formatPrice = (priceInCents: number) => {
 
 <template>
   <div class="coffee-menu">
-    <h2>{{ i18nStore.t.menu.title }}</h2>
-
     <div class="menu-grid">
       <div
         v-for="coffee in coffeeMenu"
@@ -75,10 +73,11 @@ const formatPrice = (priceInCents: number) => {
 
 <style scoped>
 .coffee-menu {
-  background: white;
-  padding: 1.5rem;
+  position: absolute;
+  top: 38vh;
+  left: 62vh;
+  transform: translate(-50%, -50%);
   border-radius: 16px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
 h2 {
@@ -89,18 +88,19 @@ h2 {
 }
 
 .menu-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
   gap: 0.75rem;
 }
 
 .coffee-card {
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  color: #e0f7e9;
+  background: #f0f8ff17;
+  width: 10vh;
   padding: 0.75rem;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s;
-  border: 2px solid transparent;
+  border: 2px solid gray;
   text-align: center;
   min-height: 120px;
   display: flex;
@@ -115,6 +115,7 @@ h2 {
 
 .coffee-card.selected {
   border-color: #42b983;
+  color: #42b983;
   background: linear-gradient(135deg, #e0f7e9 0%, #a8e6cf 100%);
 }
 
@@ -125,7 +126,6 @@ h2 {
 
 h3 {
   margin: 0 0 0.25rem 0;
-  color: #2c3e50;
   font-size: 0.95rem;
   font-weight: 600;
   line-height: 1.2;
@@ -133,7 +133,7 @@ h3 {
 
 .description {
   margin: 0 0 0.5rem 0;
-  color: #666;
+
   font-size: 0.75rem;
   line-height: 1.3;
   min-height: auto;
@@ -141,7 +141,6 @@ h3 {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   line-clamp: 2;
-  overflow: hidden;
 }
 
 .price {

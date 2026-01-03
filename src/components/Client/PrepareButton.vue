@@ -31,7 +31,10 @@ const disabledReason = computed(() => {
   if (!depositStore.hasSufficientFunds) {
     return i18nStore.t.preparation.insufficientFunds
   }
-  if (coffeeStore.requiredIngredients && !resourceStore.canMakeCoffee(coffeeStore.requiredIngredients)) {
+  if (
+    coffeeStore.requiredIngredients &&
+    !resourceStore.canMakeCoffee(coffeeStore.requiredIngredients)
+  ) {
     return i18nStore.t.preparation.insufficientResources
   }
   return ''
@@ -48,7 +51,7 @@ const disabledReason = computed(() => {
     >
       {{ buttonText }}
     </button>
-    
+
     <div v-if="buttonDisabled && disabledReason" class="disabled-reason">
       {{ disabledReason }}
     </div>
@@ -58,15 +61,19 @@ const disabledReason = computed(() => {
 <style scoped>
 .prepare-button-container {
   text-align: center;
+  position: absolute;
+  margin: 0 0 0 13px;
+  height: 93px;
+  left: 89vh;
+  width: 234px;
+  top: 21vh;
 }
 
 .prepare-btn {
   width: 100%;
-  max-width: 400px;
-  padding: 1.5rem 3rem;
+  height: 45px;
   font-size: 1.5rem;
   font-weight: bold;
-  background: linear-gradient(135deg, #42b983 0%, #2c8a5f 100%);
   color: white;
   border: none;
   border-radius: 16px;
@@ -98,7 +105,8 @@ const disabledReason = computed(() => {
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
   }
   50% {
@@ -107,7 +115,7 @@ const disabledReason = computed(() => {
 }
 
 .disabled-reason {
-  margin-top: 1rem;
+  margin-top: 11px;
   color: #e74c3c;
   font-weight: 600;
   font-size: 1rem;
