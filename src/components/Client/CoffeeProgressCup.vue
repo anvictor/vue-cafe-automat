@@ -1,31 +1,18 @@
 <script setup lang="ts">
-import espresso from '@/assets/images/Espresso.png'
-import espresso_double from '@/assets/images/Espresso_double.png'
-import americano from '@/assets/images/Americano.png'
-import coffee_with_milk from '@/assets/images/Coffee_with_milk.png'
-import cappuccino from '@/assets/images/Cappuccino.png'
-import latte from '@/assets/images/Latte.png'
-import macchiato from '@/assets/images/Macchiato.png'
-import hot_milk from '@/assets/images/Hot_milk.png'
-import hot_water from '@/assets/images/Hot_water.png'
-import type { CoffeeType } from '@/types/Coffee'
-const coffeeImageMap = {
-  espresso,
-  espresso_double,
-  americano,
-  coffee_with_milk,
-  cappuccino,
-  latte,
-  macchiato,
-  hot_milk,
-  hot_water,
-}
-const getCoffeeImage = (type: CoffeeType) => {
-  return coffeeImageMap[type]
-}
+// Cup images - small size
+import cupSmallBwPreparing from '@/assets/images/cupSmallBwPreparing.png'
+import cupSmallColorPreparing from '@/assets/images/cupSmallColorPreparing.png'
+import cupSmallColorReady from '@/assets/images/cupSmallColorReady.png'
 
+// Cup images - large size
+import cupBigBwPreparing from '@/assets/images/cupBigBwPreparing.png'
+import cupBigColorPreparing from '@/assets/images/cupBigColorPreparing.png'
+import cupBigColorReady from '@/assets/images/cupBigColorReady.png'
+
+import { CupSize } from '@/types/Coffee'
 import { computed } from 'vue'
 import { useCoffeeStore } from '@/stores/coffeeStore'
+import { PreparationStatus } from '@/types/Transaction'
 
 const coffeeStore = useCoffeeStore()
 
@@ -34,91 +21,130 @@ const progressPercent = computed(() => {
 })
 
 const showProgress = computed(() => {
-  return coffeeStore.preparationStatus === 'preparing'
+  return coffeeStore.preparationStatus === PreparationStatus.PREPARING
 })
 
-const isTaken = computed(() => {
-  return coffeeStore.preparationStatus === 'taken'
+const isReady = computed(() => {
+  return coffeeStore.preparationStatus === PreparationStatus.READY
 })
+
+const showCup = computed(() => {
+  // return true
+  return showProgress.value || isReady.value
+})
+
+// Get cup size from current recipe
+const cupSize = computed(() => {
+  return coffeeStore.requiredIngredients?.cup || CupSize.SMALL
+})
+
+// Get appropriate cup images based on size and status
+const cupImages = computed(() => {
+  const isSmall = cupSize.value === CupSize.SMALL
+
+  return {
+    bw: isSmall ? cupSmallBwPreparing : cupBigBwPreparing,
+    color: isReady.value
+      ? isSmall
+        ? cupSmallColorReady
+        : cupBigColorReady
+      : isSmall
+        ? cupSmallColorPreparing
+        : cupBigColorPreparing,
+  }
+})
+
+const handleTakeCoffee = () => {
+  if (isReady.value) {
+    coffeeStore.takeCoffee()
+  }
+}
 </script>
+
 <template>
-  <div v-if="showProgress" class="coffee-progress">
-    <!-- Нижнє ч/б зображення -->
-    <img
-      v-if="coffeeStore.selectedCoffeeType"
-      class="coffee-img base"
-      :src="getCoffeeImage(coffeeStore.selectedCoffeeType)"
-      alt="{{getCoffeeImage(coffeeStore.selectedCoffeeType)}}"
-    />
+  <div
+    v-if="showCup"
+    class="coffee-progress"
+    :class="{ ready: isReady, preparing: showProgress }"
+    @click="handleTakeCoffee"
+  >
+    <!-- Grayscale base image -->
+    <img class="coffee-img base" :src="cupImages.bw" alt="Coffee cup" />
 
-    <!-- Контейнер, який відкриває кольорове зображення -->
-    <div class="color-mask" :style="{ height: progressPercent + '%', overflow: 'hidden' }">
-      <img
-        v-if="coffeeStore.selectedCoffeeType"
-        class="coffee-img color"
-        :src="getCoffeeImage(coffeeStore.selectedCoffeeType)"
-        alt="{{getCoffeeImage(coffeeStore.selectedCoffeeType)}}"
-      />
-    </div>
-  </div>
-  <div v-if="!isTaken" class="coffee-progress">
-    <!-- Нижнє ч/б зображення -->
-    <img
-      v-if="coffeeStore.selectedCoffeeType"
-      class="coffee-img base"
-      :src="getCoffeeImage(coffeeStore.selectedCoffeeType)"
-      alt="{{getCoffeeImage(coffeeStore.selectedCoffeeType)}}"
-    />
-
-    <!-- Контейнер, який відкриває кольорове зображення -->
-    <div class="color-mask" :style="{ height: progressPercent + '%', overflow: 'hidden' }">
-      <img
-        v-if="coffeeStore.selectedCoffeeType"
-        class="coffee-img color"
-        :src="getCoffeeImage(coffeeStore.selectedCoffeeType)"
-        alt="{{getCoffeeImage(coffeeStore.selectedCoffeeType)}}"
-      />
+    <!-- Color mask that reveals the colored image based on progress height: progressPercent -->
+    <div class="color-mask" :style="{ height: progressPercent + '%' }">
+      <img class="coffee-img color" :src="cupImages.color" alt="Coffee cup" />
     </div>
   </div>
 </template>
 
 <style scoped>
-/* Контейнер з фіксованою пропорцією 4:3 */
+/* Container with fixed aspect ratio */
 .coffee-progress {
   position: absolute;
-  top: 650px;
-  left: 720px;
-  width: 200px;
-  aspect-ratio: 1 / 1; /* адаптивність + фіксована пропорція */
+  top: 649px;
+  left: 768px;
+  width: 123px;
+  aspect-ratio: 287 / 460;
   overflow: hidden;
+  transition: transform 0.3s ease;
 }
 
-/* Обидва зображення однакового розміру */
+/* Preparing state - semi-transparent */
+.coffee-progress.preparing {
+  cursor: not-allowed;
+}
+
+/* Ready state - pulse animation and pointer cursor */
+.coffee-progress.ready {
+  cursor: pointer;
+  animation: pulse 1s ease-in-out infinite;
+}
+
+.coffee-progress.ready:hover {
+  transform: scale(1.05);
+}
+
+/* Both images same size */
 .coffee-img {
   position: absolute;
-  bottom: 0; /* вирівнювання по низу */
+  bottom: 0;
   left: 0;
   width: 100%;
-  /* height: 100%; */
-  object-fit: contain; /* зберігає пропорції */
+  object-fit: contain;
   pointer-events: none;
 }
 
-/* Маска, яка відкриває кольорове зображення */
+/* Mask that reveals the colored image */
 .color-mask {
   width: 100%;
   height: auto;
   position: absolute;
   bottom: 0;
   left: 0;
+  overflow: hidden;
+  opacity: 1;
+  transition: height 0.3s linear;
 }
 
 .base {
   z-index: 1;
   filter: grayscale(100%);
+  opacity: 0.7;
 }
 
 .color {
   z-index: 2;
+}
+
+/* Pulse animation for ready coffee - smooth scale from 100% to 95% */
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.95);
+  }
 }
 </style>

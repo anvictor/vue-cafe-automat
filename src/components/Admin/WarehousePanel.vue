@@ -3,6 +3,7 @@ import { useWarehouseStore } from '@/stores/warehouseStore'
 import { useI18nStore } from '@/stores/i18nStore'
 import type { ResourceInventory } from '@/types/Coffee'
 import { RESOURCE_UNITS } from '@/data/resourceUnits'
+import { PURCHASE_AMOUNTS } from '@/data/constants'
 
 import water from '@/assets/images/water.png'
 import coffee from '@/assets/images/coffee.png'
@@ -40,14 +41,22 @@ const resourceList: Array<{ key: keyof ResourceInventory; icon: string }> = [
           <img :src="resource.icon" :alt="resource.key" />
           <span class="item-label">{{ i18nStore.t.resources[resource.key] }}</span>
         </div>
-        <div class="item-stock">{{ i18nStore.t.admin[RESOURCE_UNITS[resource.key]] }}</div>
-        <div class="item-stock">{{ warehouseStore.inventory[resource.key] }}</div>
+        <div class="item-stock">
+          {{ warehouseStore.inventory[resource.key] }}
+          {{ i18nStore.t.admin[RESOURCE_UNITS[resource.key]] }}
+        </div>
 
-        <button class="purchase-btn" @click="handlePurchase(resource.key)">
-          {{ i18nStore.t.admin.purchase }}
+        <button
+          class="purchase-btn"
+          @click="handlePurchase(resource.key)"
+          :disabled="warehouseStore.isLoading"
+        >
+          {{ i18nStore.t.admin.purchase }} +{{ PURCHASE_AMOUNTS[resource.key] }}
         </button>
       </div>
     </div>
+
+    <div v-if="warehouseStore.error" class="error-message">⚠️ {{ warehouseStore.error }}</div>
   </div>
 </template>
 
@@ -97,9 +106,9 @@ h2 {
 }
 
 .item-stock {
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: bold;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .purchase-btn {
@@ -112,17 +121,32 @@ h2 {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s;
-  font-size: 1rem;
+  font-size: 0.95rem;
 }
 
-.purchase-btn:hover {
+.purchase-btn:hover:not(:disabled) {
   background: white;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-.purchase-btn:active {
+.purchase-btn:active:not(:disabled) {
   transform: translateY(0);
+}
+
+.purchase-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.error-message {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #fee;
+  color: #c33;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 600;
 }
 
 @media (max-width: 768px) {
@@ -144,7 +168,7 @@ h2 {
   }
 
   .item-stock {
-    font-size: 1.75rem;
+    font-size: 1.25rem;
   }
 }
 

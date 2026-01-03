@@ -88,28 +88,32 @@ function getWarehouseSheet() {
  */
 function initializeSheet(sheet) {
   // Заголовки
-  sheet.getRange('A1:B1').setValues([['Resource', 'Amount']])
-  sheet.getRange('A1:B1').setFontWeight('bold')
-  sheet.getRange('A1:B1').setBackground('#4285f4')
-  sheet.getRange('A1:B1').setFontColor('#ffffff')
+  sheet.getRange('A1:C1').setValues([['Resource', 'Amount', 'Unit']])
+  sheet.getRange('A1:C1').setFontWeight('bold')
+  sheet.getRange('A1:C1').setBackground('#4285f4')
+  sheet.getRange('A1:C1').setFontColor('#ffffff')
 
-  // Початкові дані
+  // Початкові дані (синхронізовані з INITIAL_WAREHOUSE_INVENTORY)
   const initialData = [
-    ['water', 5000],
-    ['coffee', 1000],
-    ['milk', 5000],
-    ['smallCups', 100],
-    ['largeCups', 100],
-    ['stirrers', 200],
-    ['sugar', 200],
+    ['water', 10000, 'ml'],
+    ['coffee', 1000, 'g'],
+    ['milk', 5000, 'ml'],
+    ['smallCups', 100, 'pcs'],
+    ['largeCups', 100, 'pcs'],
+    ['stirrers', 200, 'pcs'],
+    ['sugar', 200, 'pcs'],
   ]
 
-  sheet.getRange(2, 1, initialData.length, 2).setValues(initialData)
+  sheet.getRange(2, 1, initialData.length, 3).setValues(initialData)
 
   // Форматування
   sheet.setColumnWidth(1, 150)
   sheet.setColumnWidth(2, 100)
+  sheet.setColumnWidth(3, 80)
   sheet.getRange('B2:B8').setNumberFormat('#,##0')
+
+  // Додати примітку про одиниці виміру
+  sheet.getRange('C1').setNote('ml - мілілітри, g - грами, pcs - штуки')
 }
 
 /**
