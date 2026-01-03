@@ -69,7 +69,7 @@ const handleTakeCoffee = () => {
     @click="handleTakeCoffee"
   >
     <!-- Grayscale base image -->
-    <img class="coffee-img base" :src="cupImages.bw" alt="Coffee cup" />
+    <img v-if="!isReady" class="coffee-img base" :src="cupImages.bw" alt="Coffee cup" />
 
     <!-- Color mask that reveals the colored image based on progress height: progressPercent -->
     <div class="color-mask" :style="{ height: progressPercent + '%' }">
