@@ -8,8 +8,10 @@
   },
   "scripts": {
     "dev": "concurrently \"npm run dev:vite\" \"npm run dev:server\"",
+    "dev:all": "concurrently -n \"vite,ws,proxy\" -c \"cyan,green,yellow\" \"npm run dev:vite\" \"npm run dev:server\" \"npm run dev:proxy\"",
     "dev:vite": "vite",
     "dev:server": "tsx watch server/server.ts",
+    "dev:proxy": "tsx server/proxy.ts",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "test:unit": "vitest",

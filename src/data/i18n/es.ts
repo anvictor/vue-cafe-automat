@@ -75,13 +75,14 @@ export const es: Translations = {
     title: 'Panel de Administración',
     clientResources: 'Recursos de la Máquina Cliente',
     warehouse: 'Stock del Almacén',
-    purchase: 'Comprar',
+    purchase: '⬅️ Comprar en Almacén',
     refill: 'Rellenar',
-    refillClient: 'Rellenar Cliente',
+    refillClient: '⬅️ Rellenar Cliente',
     prepared: 'Preparado',
     executeRefill: 'Ejecutar Relleno',
     pcs: 'uds',
     ml: 'ml',
     g: 'g',
+    resource: 'Recursos'
   }
 }

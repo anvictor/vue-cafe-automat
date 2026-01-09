@@ -28,7 +28,7 @@ coffeeStore.$subscribe((mutation, state) => {
 })
 
 // WebSocket connection and listeners
-onMounted(() => {
+onMounted(async () => {
   ws.connect()
 
   // Listen for refill updates from admin
@@ -36,6 +36,9 @@ onMounted(() => {
     console.log('[Client] Received refill update:', data)
     resourceStore.refillResources(data.amounts)
   })
+
+  // Load client resources from Google Sheets
+  await resourceStore.loadFromGoogleSheets()
 })
 
 onUnmounted(() => {

@@ -1,5 +1,12 @@
 // API client for Google Sheets warehouse integration
 const APPS_SCRIPT_URL = import.meta.env.VITE_APPS_SCRIPT_URL || ''
+const USE_PROXY = import.meta.env.DEV // Use proxy in development mode
+const PROXY_URL = 'http://localhost:3002/proxy'
+
+// In development, route through proxy to bypass CORS
+const API_URL = USE_PROXY && APPS_SCRIPT_URL
+    ? `${PROXY_URL}?url=${encodeURIComponent(APPS_SCRIPT_URL)}`
+    : APPS_SCRIPT_URL
 
 export interface WarehouseApiResponse {
     success: boolean
@@ -171,4 +178,4 @@ class WarehouseApiClient {
 }
 
 // Export singleton instance
-export const warehouseApi = new WarehouseApiClient(APPS_SCRIPT_URL)
+export const warehouseApi = new WarehouseApiClient(API_URL)

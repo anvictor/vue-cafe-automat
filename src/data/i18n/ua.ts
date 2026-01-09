@@ -75,13 +75,14 @@ export const ua: Translations = {
     title: 'Панель Адміністратора',
     clientResources: 'Ресурси Автомата',
     warehouse: 'Склад',
-    purchase: 'Купити',
+    purchase: '⬅️ Купити на склад',
     refill: 'Поповнити',
-    refillClient: 'Поповнити Автомат',
+    refillClient: '⬅️ Поповнити Автомат',
     prepared: 'Підготовлено',
     executeRefill: 'Виконати Поповнення',
     pcs: 'шт',
     ml: 'мл',
     g: 'г',
+    resource: 'Ресурс'
   }
 }

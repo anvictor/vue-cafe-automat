@@ -98,5 +98,6 @@ export interface Translations {
     pcs: string
     ml: string
     g: string
+    resource: string
   }
 }

@@ -75,13 +75,14 @@ export const en: Translations = {
     title: 'Admin Panel',
     clientResources: 'Client Machine Resources',
     warehouse: 'Warehouse Stock',
-    refillClient: 'Refill Client Machine',
-    purchase: 'Purchase',
+    refillClient: '⬅️ Refill Client Machine',
+    purchase: '⬅️ Purchase on warehouse',
     refill: 'Refill',
     prepared: 'Prepared',
     executeRefill: 'Execute Refill',
     pcs: 'pcs',
     ml: 'ml',
     g: 'g',
+    resource: 'Resource',
   }
 }

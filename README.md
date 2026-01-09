@@ -1,70 +1,283 @@
-# vue-project0
+# ☕ Vue Cafe Automat
 
-This template should help get you started developing with Vue 3 in Vite.
+Симулятор кавового автомата з інтеграцією Google Sheets для збереження даних.
 
-## Recommended IDE Setup
+## 🚀 Швидкий старт
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+### Передумови
 
-## Recommended Browser Setup
+- Node.js 18+
+- npm або yarn
+- Google Account (для інтеграції з Google Sheets)
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) 
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+### Встановлення
 
-## Type Support for `.vue` Imports in TS
+```bash
+# 1. Клонувати репозиторій
+git clone <repository-url>
+cd vue-cafe-automat
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
+# 2. Встановити залежності
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+### Налаштування Google Sheets (опціонально)
 
-```sh
-npm run dev
+Якщо хочете використовувати збереження даних в Google Sheets:
+
+1. **Створіть Google Spreadsheet**
+   - Відкрийте [Google Sheets](https://sheets.google.com)
+   - Створіть нову таблицю
+
+2. **Налаштуйте Apps Script для Warehouse**
+   - Extensions → Apps Script
+   - Скопіюйте код з `server/google-apps-script/warehouse.gs`
+   - Deploy → New deployment → Web app
+   - Execute as: **Me**
+   - Who has access: **Anyone**
+   - Скопіюйте Web App URL
+
+3. **Налаштуйте Apps Script для Client Resources**
+   - У тій же таблиці створіть новий скрипт
+   - Скопіюйте код з `server/google-apps-script/client-resources.gs`
+   - Deploy → New deployment → Web app
+   - Скопіюйте Web App URL
+
+4. **Налаштуйте змінні оточення**
+
+   ```bash
+   # Створіть файл .env.development
+   cp .env.example .env.development
+   ```
+
+   Відредагуйте `.env.development`:
+
+   ```env
+   VITE_WS_URL=ws://localhost:3001
+   VITE_APPS_SCRIPT_URL=<ваш_warehouse_url>
+   VITE_CLIENT_RESOURCES_URL=<ваш_client_resources_url>
+   ```
+
+### Запуск проекту
+
+#### Варіант 1: Запуск всього одночасно (рекомендовано) 🚀
+
+```bash
+npm run dev:all
 ```
 
-### Type-Check, Compile and Minify for Production
+Це запустить всі три сервіси в одному терміналі:
 
-```sh
+- 🔵 Frontend (Vite) - `http://localhost:5175`
+- 🟢 WebSocket сервер - `http://localhost:3001`
+- 🟡 CORS Proxy - `http://localhost:3002`
+
+#### Варіант 2: Окремі термінали
+
+Відкрийте **3 термінали** і запустіть:
+
+**Термінал 1: WebSocket сервер**
+
+```bash
+npm run dev:server
+```
+
+**Термінал 2: CORS Proxy** (потрібен для Google Sheets)
+
+```bash
+npm run dev:proxy
+```
+
+**Термінал 3: Frontend**
+
+```bash
+npm run dev:vite
+```
+
+> **Примітка:** Якщо не використовуєте Google Sheets, можете пропустити CORS Proxy
+
+## 📱 Використання
+
+### Клієнтська частина
+
+Відкрийте: `http://localhost:5175/`
+
+1. **Внесіть гроші** - натисніть "Кинути Монету" (€0.10 за раз)
+2. **Виберіть каву** - натисніть на картку з напоєм
+3. **Приготуйте** - натисніть "Приготувати"
+4. **Заберіть каву** - натисніть на готову каву
+5. **Здача** - автоматично повертається
+
+### Адмін панель
+
+Відкрийте: `http://localhost:5175/admin`
+
+1. **Моніторинг ресурсів** - перегляд поточних запасів автомата
+2. **Склад** - купівля ресурсів для складу
+3. **Поповнення** - перенесення ресурсів зі складу в автомат
+
+## 🌍 Мови
+
+Підтримуються мови:
+
+- 🇺🇦 Українська
+- 🇬🇧 English
+- 🇪🇸 Español
+
+Перемикач мови у верхньому правому куті.
+
+## 🏗️ Структура проекту
+
+```
+vue-cafe-automat/
+├── src/
+│   ├── components/
+│   │   ├── Admin/          # Компоненти адмін панелі
+│   │   └── Client/         # Компоненти клієнтської частини
+│   ├── stores/             # Pinia stores (стан додатку)
+│   ├── services/           # API клієнти
+│   ├── data/               # Константи, i18n
+│   ├── types/              # TypeScript типи
+│   └── views/              # Головні сторінки
+├── server/
+│   ├── server.ts           # WebSocket сервер
+│   ├── proxy.ts            # CORS proxy
+│   └── google-apps-script/ # Apps Script коди
+└── public/                 # Статичні файли
+```
+
+## 🔧 Доступні команди
+
+```bash
+# Розробка
+npm run dev              # Frontend
+npm run dev:server       # WebSocket server
+
+# Білд
+npm run build           # Production build
+npm run preview         # Preview production build
+
+# Інше
+npm run type-check      # TypeScript перевірка
+npx tsx server/proxy.ts # CORS proxy
+```
+
+## 📊 Інтеграція з Google Sheets
+
+### Що зберігається
+
+**Warehouse Sheet:**
+
+- Запаси складу (вода, кава, молоко, стаканчики, мішалки, цукор)
+- Оновлюється при купівлі та поповненні автомата
+
+**ClientResources Sheet:**
+
+- Запаси автомата
+- Оновлюється при приготуванні кави та поповненні
+
+### Як це працює
+
+```
+Frontend → CORS Proxy → Google Apps Script → Google Sheets
+```
+
+1. Frontend відправляє запит до proxy
+2. Proxy перенаправляє до Apps Script (обходить CORS)
+3. Apps Script читає/пише дані в Google Sheets
+4. Відповідь повертається назад до frontend
+
+## 🐛 Troubleshooting
+
+### Помилка CORS
+
+**Проблема:** `Access to fetch blocked by CORS policy`
+
+**Рішення:**
+
+```bash
+# Переконайтесь що proxy запущений
+npx tsx server/proxy.ts
+```
+
+### WebSocket не підключається
+
+**Проблема:** `WebSocket connection failed`
+
+**Рішення:**
+
+```bash
+# Переконайтесь що WebSocket сервер запущений
+npm run dev:server
+```
+
+### Google Sheets не оновлюється
+
+**Проблема:** Дані не зберігаються
+
+**Рішення:**
+
+1. Перевірте `.env.development` - чи правильні URLs
+2. Перевірте Apps Script - чи правильно задеплоєно
+3. Перевірте консоль браузера на помилки
+
+### Порт зайнятий
+
+**Проблема:** `Port 5175 is already in use`
+
+**Рішення:**
+
+```bash
+# Знайдіть процес
+lsof -i :5175
+
+# Вбийте процес
+kill -9 <PID>
+```
+
+## 📝 Production Deployment
+
+### Frontend (Vercel/Netlify)
+
+1. Build проекту:
+
+```bash
 npm run build
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+2. Deploy папку `dist/`
 
-```sh
-npm run test:unit
+3. Налаштуйте змінні оточення:
+
+```env
+VITE_WS_URL=wss://your-websocket-server.com
+VITE_APPS_SCRIPT_URL=https://script.google.com/.../exec
+VITE_CLIENT_RESOURCES_URL=https://script.google.com/.../exec
 ```
 
-### Run End-to-End Tests with [Cypress](https://www.cypress.io/)
+### WebSocket Server (Render/Railway)
 
-```sh
-npm run test:e2e:dev
-```
+1. Deploy `server/server.ts`
+2. Встановіть PORT змінну оточення
+3. Оновіть `VITE_WS_URL` у frontend
 
-This runs the end-to-end tests against the Vite development server.
-It is much faster than the production build.
+> **Примітка:** CORS proxy НЕ потрібен в production - Google Apps Script дозволяє HTTPS запити автоматично.
 
-But it's still recommended to test the production build with `test:e2e` before deploying (e.g. in CI environments):
+## 🎯 Особливості
 
-```sh
-npm run build
-npm run test:e2e
-```
+- ✅ Реалістична симуляція кавового автомата
+- ✅ Реал-тайм синхронізація через WebSocket
+- ✅ Збереження даних в Google Sheets
+- ✅ Адмін панель для управління
+- ✅ Багатомовність (UA/EN/ES)
+- ✅ Адаптивний дизайн
+- ✅ TypeScript для типобезпеки
+- ✅ Оптимістичні оновлення UI
 
-### Lint with [ESLint](https://eslint.org/)
+## 📄 Ліцензія
 
-```sh
-npm run lint
-```
+MIT
+
+## 👨‍💻 Автор
+
+Viktor Andreichenko
