@@ -44,8 +44,11 @@ const formatEuro = (cents: number) => {
 <style scoped>
 .deposit-panel {
   position: absolute;
-  top: 21vh;
-  left: 13vh;
+  width: 33%;
+  height: 10%;
+  top: 12%;
+  left: 6%;
+  z-index: 1;
   display: flex;
   gap: 12px;
   justify-content: center;
@@ -54,9 +57,9 @@ const formatEuro = (cents: number) => {
   color: white;
   background: linear-gradient(45deg, black, #686565bf);
 }
+
 .deposit-panel span {
   width: 89px;
-
   text-align: center;
 }
 
@@ -68,6 +71,8 @@ h2 {
 
 .balance-display {
   display: flex;
+  width: 33%;
+  height: 100%;
   gap: 12px;
   justify-content: center;
   align-items: center;
@@ -91,7 +96,8 @@ h2 {
 }
 
 .insert-coin-btn {
-  width: 199px;
+  width: 33%;
+  height: 100%;
   padding: 1rem 2rem;
   font-size: 1.2rem;
   font-weight: 600;

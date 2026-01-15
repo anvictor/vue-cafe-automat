@@ -12,6 +12,7 @@ import { useCoffeeStore } from '@/stores/coffeeStore'
 import { useDepositStore } from '@/stores/depositStore'
 import { useResourceStore } from '@/stores/resourceStore'
 import { useWebSocket } from '@/composables/useWebSocket'
+import { useResponsiveScale } from '@/composables/useResponsiveScale'
 import type { RefillEvent } from '@/types/WebSocket'
 
 const coffeeStore = useCoffeeStore()
@@ -19,6 +20,9 @@ const depositStore = useDepositStore()
 const resourceStore = useResourceStore()
 const ws = useWebSocket()
 const changeAmount = ref(0)
+
+// Responsive scaling for coffee machine container
+const { scaleFactor, BASE_WIDTH, BASE_HEIGHT } = useResponsiveScale()
 
 // Watch for coffee taken to show change
 coffeeStore.$subscribe((mutation, state) => {
@@ -55,14 +59,29 @@ onUnmounted(() => {
     </div>
 
     <div class="main-content">
-      <DepositPanel />
-      <SugarControl />
+      <div
+        class="coffee-machine-container"
+        :style="{
+          transform: `scale(${scaleFactor})`,
+          // width: `${BASE_WIDTH}px`,
+        }"
+      >
+        <!-- Background image as img element to scale with transform -->
+        <img
+          src="@/assets/images/mashine_bgrnd.png"
+          alt="Coffee Machine"
+          class="machine-background"
+        />
 
-      <CoffeeMenu />
-      <PrepareButton />
-      <PreparationDisplay />
-      <CoffeePreparing />
-      <ChangeDisplay :amount="changeAmount" />
+        <!-- UI Elements -->
+        <DepositPanel />
+        <SugarControl />
+        <CoffeeMenu />
+        <PrepareButton />
+        <PreparationDisplay />
+        <CoffeePreparing />
+        <ChangeDisplay :amount="changeAmount" />
+      </div>
     </div>
   </div>
 </template>
@@ -74,7 +93,7 @@ onUnmounted(() => {
   align-items: center;
   margin-bottom: 1.5rem;
   padding: 1rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2);
   border-radius: 16px;
   color: white;
   position: sticky;
@@ -90,98 +109,47 @@ h1 {
 /* Base layout for all screen sizes */
 .client-view {
   width: 100%;
-  max-width: 1400px;
+  max-width: 100vw;
   margin: 0 auto;
-
   display: flex;
-  flex-direction: column; /* header on top by default */
-  height: 100vh; /* occupy full screen height */
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
 }
 
-/* HEADER */
 .client-view .header {
-  flex: 0 0 auto; /* minimal height */
+  flex: 0 0 auto;
 }
 
-/* MAIN CONTENT */
-.client-view .main-content {
-  flex: 1 1 auto;
+/* MAIN CONTENT - Wrapper for scaling container */
+.main-content {
+  background: #1a1a1a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  width: 100%;
+  min-height: 0; /* Allow flex item to shrink below content size */
+}
+
+/* COFFEE MACHINE CONTAINER - Fixed size with transform scale */
+.coffee-machine-container {
+  width: 100%;
   position: relative;
-  background-image: url('@/assets/images/mashine_bgrnd.png');
-
-  /* Maintain background image aspect ratio */
-  aspect-ratio: 2304 / 1728;
-  max-height: 100vh;
-
-  background-size: contain; /* fit entire image without cropping */
-  background-position: center;
-  background-repeat: no-repeat;
+  transform-origin: center center;
+  aspect-ratio: 3238/1728;
+  /* Ensure all absolute positioned children scale with container */
 }
 
-/* -------------------------------------- */
-/* 1. Smartphone in landscape orientation */
-/* -------------------------------------- */
-@media (orientation: landscape) and (max-width: 900px) {
-  .client-view {
-    flex-direction: row; /* header on the left, content on the right */
-    height: 100vh;
-  }
-
-  .client-view .header {
-    width: auto;
-    min-width: 80px; /* minimal width */
-    height: 100%;
-  }
-
-  .client-view .main-content {
-    position: relative;
-
-    flex: 1;
-    height: 100vh; /* cannot exceed screen height */
-    aspect-ratio: 2304 / 1728;
-    background-image: url('@/assets/images/mashine_bgrnd.png');
-  }
-}
-
-/* -------------------------------------- */
-/* 2. Smartphone in portrait orientation  */
-/* -------------------------------------- */
-@media (orientation: portrait) and (max-width: 900px) {
-  .client-view {
-    flex-direction: column; /* header on top */
-    height: 100vh;
-  }
-
-  .client-view .header {
-    height: auto;
-    min-height: 60px;
-  }
-
-  .client-view .main-content {
-    position: relative;
-
-    flex: 1;
-    width: 100%;
-    max-height: calc(100vh - 60px); /* fill remaining space */
-  }
-}
-
-/* ------------------------------ */
-/* 3. Wide screens (desktop/tablet) */
-/* ------------------------------ */
-@media (min-width: 900px) {
-  .client-view {
-    flex-direction: column; /* header on top */
-    height: auto;
-  }
-
-  .client-view .main-content {
-    position: relative;
-
-    width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
-    aspect-ratio: 2304 / 1728;
-  }
+/* Background image as img element */
+.machine-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none; /* Allow clicks to pass through to UI elements */
+  z-index: 0; /* Behind all UI elements */
 }
 </style>

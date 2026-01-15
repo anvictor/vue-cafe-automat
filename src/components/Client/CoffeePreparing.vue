@@ -25,8 +25,9 @@ const isReady = computed(() => {
 <style scoped>
 .coffee-cup-container {
   position: absolute;
-  top: 57vh;
-  left: 64vh;
+  top: 57%;
+  left: 46%;
+  z-index: 1;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -50,8 +51,9 @@ const isReady = computed(() => {
 
 .ready-message {
   position: absolute;
-  top: 48vh;
-  left: 68vh;
+  top: 48%;
+  left: 49%;
+  z-index: 1;
   text-align: center;
   font-size: 1.5rem;
   font-weight: bold;
@@ -83,8 +85,9 @@ const isReady = computed(() => {
     text-shadow: 0 0 20px rgba(66, 185, 131, 0.8);
   }
 }
-------- .coffee-cup {
-  position: relative; /* allows stacking the two image layers */
+
+.coffee-cup {
+  position: relative;
   width: 170px;
   height: auto;
 }
@@ -95,29 +98,26 @@ const isReady = computed(() => {
   display: block;
 }
 
-/* Bottom layer — faded empty cup */
 .cup-base {
   opacity: 0.4;
   filter: grayscale(100%);
 }
 
-/* Wrapper that defines the full cup area and clips the filling */
 .cup-fill-wrapper {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 170px;
   height: 100%;
-  transition: height 0.3s linear; /* smooth filling animation */
-  overflow: hidden; /* prevents the upper part of the fill image from showing */
+  transition: height 0.3s linear;
+  overflow: hidden;
 }
 
-/* Filling image that grows upward */
 .cup-fill {
   position: absolute;
-  bottom: 0; /* keeps the image anchored to the bottom */
+  bottom: 0;
   left: 0;
   width: 170px;
-  height: 170px; /* dynamically updated via progressPercentage */
+  height: 170px;
 }
 </style>

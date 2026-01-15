@@ -64,9 +64,10 @@ const disabledReason = computed(() => {
   position: absolute;
   margin: 0 0 0 13px;
   height: 93px;
-  left: 89vh;
+  top: 14%;
+  left: 70%;
   width: 234px;
-  top: 21vh;
+  z-index: 1;
 }
 
 .prepare-btn {

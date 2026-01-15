@@ -43,8 +43,11 @@ const handleAdjustSugar = (delta: number) => {
 .sugar-control {
   position: absolute;
   background: #f0f8ff17;
-  left: 67vh;
-  top: 21vh;
+  position: absolute;
+  background: #f0f8ff17;
+  left: 42%;
+  top: 12%;
+  z-index: 1;
   margin: 0px 0px 0px 13px;
   display: flex;
   flex-direction: column;
@@ -53,8 +56,8 @@ const handleAdjustSugar = (delta: number) => {
   border: 2px solid gray;
   color: white;
   border-radius: 12px;
-  width: 235px;
-  height: 76px;
+  width: 26%;
+  height: 10%;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -114,54 +117,5 @@ h3 {
 .unit {
   font-size: 0.9rem;
   margin-top: 0.25rem;
-}
-
-/* Mobile responsive */
-@media (max-width: 768px) {
-  .sugar-control {
-    padding: 1.25rem;
-  }
-
-  h3 {
-    font-size: 1rem;
-  }
-
-  .sugar-btn {
-    width: 44px;
-    height: 44px;
-    font-size: 1.3rem;
-  }
-
-  .amount {
-    font-size: 1.75rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .sugar-control {
-    padding: 1rem;
-  }
-
-  h3 {
-    font-size: 0.95rem;
-  }
-
-  .sugar-display {
-    gap: 1rem;
-  }
-
-  .sugar-btn {
-    width: 40px;
-    height: 40px;
-    font-size: 1.2rem;
-  }
-
-  .amount {
-    font-size: 1.5rem;
-  }
-
-  .unit {
-    font-size: 0.8rem;
-  }
 }
 </style>

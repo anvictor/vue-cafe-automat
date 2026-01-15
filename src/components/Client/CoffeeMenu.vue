@@ -74,10 +74,10 @@ const formatPrice = (priceInCents: number) => {
 <style scoped>
 .coffee-menu {
   position: absolute;
-  top: 38vh;
-  left: 62vh;
-  transform: translate(-50%, -50%);
-  border-radius: 16px;
+  top: 28%;
+  left: 6%;
+  z-index: 1;
+  width: 88%;
 }
 
 h2 {
@@ -90,6 +90,9 @@ h2 {
 .menu-grid {
   display: flex;
   gap: 0.75rem;
+  width: 100%;
+  aspect-ratio: 100/12;
+  justify-content: space-between;
 }
 
 .coffee-card {
@@ -133,7 +136,6 @@ h3 {
 
 .description {
   margin: 0 0 0.5rem 0;
-
   font-size: 0.75rem;
   line-height: 1.3;
   min-height: auto;
@@ -148,17 +150,5 @@ h3 {
   color: #42b983;
   font-size: 1rem;
   margin-top: auto;
-}
-
-@media (max-width: 768px) {
-  .menu-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 480px) {
-  .menu-grid {
-    grid-template-columns: 1fr;
-  }
 }
 </style>

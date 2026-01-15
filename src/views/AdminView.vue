@@ -76,16 +76,21 @@ const addToRefill = (resource: keyof ResourceInventory) => {
   const current = resourceStore.inventory[resource]
   const prepared = preparedRefill[resource] || 0
   const max = CLIENT_MAX_CAPACITY[resource]
+  const increment = Math.max(1, Math.round(max / 10)) // ~10% of max, minimum 1
 
   if (warehouseStore.inventory[resource] > 0 && current + prepared < max) {
-    preparedRefill[resource] = prepared + 1
+    const newAmount = Math.min(prepared + increment, max - current)
+    preparedRefill[resource] = newAmount
   }
 }
 
 const removeFromRefill = (resource: keyof ResourceInventory) => {
   const current = preparedRefill[resource] || 0
+  const max = CLIENT_MAX_CAPACITY[resource]
+  const decrement = Math.max(1, Math.round(max / 10)) // ~10% of max, minimum 1
+
   if (current > 0) {
-    preparedRefill[resource] = current - 1
+    preparedRefill[resource] = Math.max(0, current - decrement)
   }
 }
 

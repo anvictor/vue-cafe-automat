@@ -26,9 +26,9 @@ const progressPercentage = computed(() => {
 <style scoped>
 .preparation-display {
   position: absolute;
-  top: 48vh;
-  left: 69vh;
-  /* padding: 2rem; */
+  top: 48%;
+  left: 50%;
+  z-index: 1;
   border-radius: 16px;
   color: white;
   text-align: center;
