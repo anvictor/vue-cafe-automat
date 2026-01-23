@@ -22,7 +22,7 @@ const ws = useWebSocket()
 const changeAmount = ref(0)
 
 // Responsive scaling for coffee machine container
-const { scaleFactor, BASE_WIDTH, BASE_HEIGHT } = useResponsiveScale()
+const { scaleFactor } = useResponsiveScale()
 
 // Watch for coffee taken to show change
 coffeeStore.$subscribe((mutation, state) => {
@@ -64,6 +64,7 @@ onUnmounted(() => {
         :style="{
           transform: `scale(${scaleFactor})`,
           // width: `${BASE_WIDTH}px`,
+          // height: `${BASE_HEIGHT}px`,
         }"
       >
         <!-- Background image as img element to scale with transform -->

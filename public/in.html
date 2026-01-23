@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test scale</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .main-content {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #111;
+      } /* Базовий контейнер кавомашини */
+      .coffee-machine-container {
+        width: 3238px;
+        height: 1728px;
+        position: relative;
+        transform-origin: top left;
+        background: red;
+        border: 4px solid #52e579;
+      } /* Приклад абсолютного елемента всередині */
+      .coffee-machine-container .dot {
+        position: absolute;
+        top: 100px;
+        left: 200px;
+        width: 100px;
+        height: 100px;
+        background: yellow;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main-content">
+      <div class="coffee-machine-container" id="machine"><div class="dot"></div></div>
+    </div>
+    <script>
+      function scaleMachine() {
+        const main = document.querySelector('.main-content')
+        const machine = document.getElementById('machine')
+        if (!main || !machine) return
+        const baseWidth = 3238
+        const baseHeight = 1728
+        const availableWidth = main.clientWidth
+        const availableHeight = main.clientHeight
+        const scale = Math.min(availableWidth / baseWidth, availableHeight / baseHeight)
+        machine.style.transform = `scale(${scale})`
+      }
+      window.addEventListener('load', scaleMachine)
+      window.addEventListener('resize', scaleMachine)
+      window.addEventListener('orientationchange', scaleMachine)
+    </script>
+  </body>
+</html>
+
+</html>
